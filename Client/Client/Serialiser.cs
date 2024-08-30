@@ -37,7 +37,7 @@ namespace Client
             return json;
         }
 
-        public static bool? DeserialiseBoolFromJson(string json)
+        public static bool DeserialiseBoolFromJson(string json)
         {
             bool boolean = JsonConvert.DeserializeObject<bool>(json);
             return boolean;
