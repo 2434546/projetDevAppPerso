@@ -30,5 +30,17 @@ namespace Server
             Tir ?tir = JsonConvert.DeserializeObject<Tir>(json);
             return tir;
         }
+
+        public static string SerialiseBoolToJson(bool boolean)
+        {
+            string json = JsonConvert.SerializeObject(boolean);
+            return json;
+        }
+
+        public static bool DeserialiseBoolFromJson(string json)
+        {
+            bool boolean = JsonConvert.DeserializeObject<bool>(json);
+            return boolean;
+        }
     }
 }

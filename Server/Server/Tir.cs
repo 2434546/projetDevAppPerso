@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Server
 {
-    internal class Tir
+    public class Tir
     {
         public int coord { get; }
         public bool hit { get; set; }
