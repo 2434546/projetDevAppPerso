@@ -115,9 +115,19 @@ namespace Client
             return Serialiser.DeserialiseTirFromJson(Encoding.ASCII.GetString(bytes, 0, bytesRecu));
         }
 
-        public string ChoixTir()
+        public Tir ChoixTir()
         {
-            return "";
+            int coordChoisi = 0;
+            Tir tir = new Tir(coordChoisi);
+
+            do
+            {
+                Console.WriteLine("Veuillez choisir un une position ou tirer dans le tableau");
+                coordChoisi = Convert.ToInt32(Console.ReadLine());
+            }
+            while (coordChoisi < 17 && coordChoisi > 0);
+            
+            return tir;
         }
 
         public string ChoixBateau()
