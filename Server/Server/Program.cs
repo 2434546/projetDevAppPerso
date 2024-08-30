@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using Server;
+using System.Net;
 using System.Net.Sockets;
 using System.Reflection;
 using System.Text;
@@ -20,6 +21,8 @@ try
         Socket handler = socketListener.Accept();
 
         //Ajouter code pour lancer la partie
+        
+
 
     }
 }
