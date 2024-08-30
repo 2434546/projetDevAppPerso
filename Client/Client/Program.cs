@@ -1,11 +1,12 @@
-﻿using System.Net;
+﻿using Client;
+using System.Net;
 using System.Net.Sockets;
 using System.Text;
 
 byte[] bytes = new byte[1024];
 string message = string.Empty;
 
-try
+/*try
 {
     // Connect to a remote device.
     Console.Write("Entrée l'adresse du server : ");
@@ -25,4 +26,12 @@ try
 catch (Exception e)
 {
     Console.WriteLine(e.ToString());
-}
+}*/
+
+Tableau tableau1 = new Tableau();
+
+tableau1.AffichageTableauJoueur();
+Console.WriteLine();
+Console.WriteLine();
+tableau1.AffichageTableauAdversaire();
+
