@@ -21,7 +21,7 @@ namespace Serveur
         public void StartGame(Socket socket)
         {
             //Attend que le serveur aille choisi
-            bool bateauChoisiClient = RecevoirChoixBateau(socket);
+            /*bool bateauChoisiClient = RecevoirChoixBateau(socket);
 
             bool bateauChoisi = false;
 
@@ -33,7 +33,7 @@ namespace Serveur
            
 
             //Fait choisir le serveur
-            EnvoyerChoixBateau(bateauChoisi, socket);
+            EnvoyerChoixBateau(bateauChoisi, socket);*/
 
             
 

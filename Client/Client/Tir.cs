@@ -12,11 +12,10 @@ namespace Client
         public bool hit { get; set; }
         public string status { get; set; }
 
-        public Tir(int coord, string status)
+        public Tir(int coord)
         {
             this.coord = coord;
             this.hit = false;
-            this.status = status;
         }
     }
 }

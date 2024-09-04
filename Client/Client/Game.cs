@@ -20,15 +20,15 @@ namespace Client
         public void StartGame(Socket socket)
         {
             //Choisi sont bateau
-            bool bateauChoisi = tableau.ChoixBateau();
+           /* bool bateauChoisi = tableau.ChoixBateau();
 
             //Fait choisir le serveur
             EnvoyerChoixBateau(bateauChoisi, socket);
 
             //Attend que le serveur aille choisi
-            bool bateauChoisiServer = RecevoirChoixBateau(socket);
+            bool bateauChoisiServer = RecevoirChoixBateau(socket);*/
 
-            if (bateauChoisiServer)
+            if (true)
             {
                 while (tableau.gagnant == "")
                 {
@@ -41,7 +41,7 @@ namespace Client
 
                     if(tir.status == "check")
                     {
-                        tableau.AjouterTir(tir);
+                        //tableau.AjouterTir(tir);
                         tir.status = "changeTour";
                     }
                         
