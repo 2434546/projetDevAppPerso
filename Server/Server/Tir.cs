@@ -12,11 +12,10 @@ namespace Server
         public bool hit { get; set; }
         public string status { get; set; }
 
-        public Tir(int coord, bool hit, string status)
+        public Tir(int coord)
         {
             this.coord = coord;
-            this.hit = hit;
-            this.status = status;
+            this.hit = false;
         }
     }
 }

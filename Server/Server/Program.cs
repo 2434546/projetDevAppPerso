@@ -1,4 +1,5 @@
 ﻿using Server;
+using Serveur;
 using System.Net;
 using System.Net.Sockets;
 using System.Reflection;
@@ -21,7 +22,8 @@ try
         Socket handler = socketListener.Accept();
 
         //Ajouter code pour lancer la partie
-        
+        Game game = new Game();
+        game.StartGame(handler);
 
 
     }

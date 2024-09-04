@@ -18,6 +18,8 @@ string message = string.Empty;
     Console.WriteLine("Connexion établie");
 
     //Ajouter la truc qui lance la game
+    Game game = new Game();
+    game.StartGame(sender);
 
     // Release the socket.
     sender.Shutdown(SocketShutdown.Both);
@@ -28,10 +30,34 @@ catch (Exception e)
     Console.WriteLine(e.ToString());
 }*/
 
+
+
 Tableau tableau1 = new Tableau();
 
 tableau1.AffichageTableauJoueur();
 Console.WriteLine();
 Console.WriteLine();
 tableau1.AffichageTableauAdversaire();
+Console.WriteLine();
+
+tableau1.ChoixBateau();
+
+while (true)
+{
+
+
+    Console.Clear();
+    tableau1.AffichageTableauJoueur();
+    Console.WriteLine();
+    Console.WriteLine();
+    tableau1.AffichageTableauAdversaire();
+    Console.WriteLine();
+
+    Tir tir = tableau1.ChoixTir();
+    tableau1.VerificationTir(tir);
+
+
+}
+
+
 
