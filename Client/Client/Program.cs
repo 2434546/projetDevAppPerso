@@ -29,35 +29,3 @@ catch (Exception e)
 {
     Console.WriteLine(e.ToString());
 }
-
-
-
-/*Tableau tableau1 = new Tableau();
-
-tableau1.AffichageTableauJoueur();
-Console.WriteLine();
-Console.WriteLine();
-tableau1.AffichageTableauAdversaire();
-Console.WriteLine();
-
-tableau1.ChoixBateau();
-
-while (true)
-{
-
-
-    Console.Clear();
-    tableau1.AffichageTableauJoueur();
-    Console.WriteLine();
-    Console.WriteLine();
-    tableau1.AffichageTableauAdversaire();
-    Console.WriteLine();
-
-    Tir tir = tableau1.ChoixTir();
-    tableau1.VerificationTir(tir);
-
-
-}*/
-
-
-

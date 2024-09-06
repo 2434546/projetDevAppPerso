@@ -196,7 +196,7 @@ namespace Client
 
         public bool VerifierGagnant()
         {
-            if (tableauJoueur[caseBateauPlace1] == "BT" && tableauJoueur[caseBateauPlace2] == "BT")
+            if (tableauJoueur[caseBateauPlace1 - 1] == "BT" && tableauJoueur[caseBateauPlace2 - 1] == "BT")
             {
                 return true;
             }

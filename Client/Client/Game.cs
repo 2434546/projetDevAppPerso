@@ -54,8 +54,19 @@ namespace Client
             while (choix != "o" && choix != "n");
 
             if (choix == "o")
+            {
+                Tir tir = new Tir(1);
+                tir.status = "newGame";
+                tableau.EnvoyerTir(tir, socket);
                 StartGame(socket);
 
+            }
+            else
+            {
+                Tir tir = new Tir(1);
+                tir.status = "stop";
+                tableau.EnvoyerTir(tir, socket);
+            }
         }
 
         public bool ChoisirBateau(Socket socket)
@@ -111,6 +122,10 @@ namespace Client
             if (tir.status == "toCheck")
             {
                 tir = tableau.VerificationTir(tir);
+                bool gagnant = tableau.VerifierGagnant();
+                if (gagnant)
+                    tir.status = "win";
+                    
                 tableau.EnvoyerTir(tir, socket);
             }
             AfficherJeux();

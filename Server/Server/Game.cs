@@ -20,6 +20,38 @@ namespace Serveur
 
         public void StartGame(Socket socket)
         {
+            ChoisirBateau(socket);
+
+            string win = "notWin";
+
+            while (true)
+            {
+                string status;
+                if (win == "notWin")
+                    status = AdversaireJouer(socket);
+                else
+                    break;
+
+                if(status == "continu")
+                    win = JouerTour(socket);
+                else
+                    break;
+
+            }
+
+            RestartGame(socket);
+        }
+
+        public void RestartGame(Socket socket)
+        {
+            Tir tir = tableau.RecevoirTir(socket);
+
+            if (tir.status == "newGame")
+                StartGame(socket);
+        }
+
+        public void ChoisirBateau(Socket socket)
+        {
             //Attend que le serveur aille choisi
             Console.WriteLine("Votre adversaire choisi l'emplacement du bateau");
             bool bateauChoisiClient = RecevoirChoixBateau(socket);
@@ -39,21 +71,54 @@ namespace Serveur
 
             //Fait choisir le serveur
             EnvoyerChoixBateau(bateauChoisi, socket);
+        }
 
-            
+        public string JouerTour(Socket socket)
+        {
+            Tir tir = tableau.ChoixTir();
+            tir.status = "toCheck";
 
-            while (tableau.gagnant == "")
+            tableau.EnvoyerTir(tir, socket);
+
+            tir = tableau.RecevoirTir(socket);
+
+            if (tir.status == "win")
             {
-                Tir tir = tableau.RecevoirTir(socket);
+                tableau.AjoutTir(tir);
+                AfficherJeux();
+                return "win";
+            }
 
-                if (tir.status == "toCheck")
-                {
-                    tir = tableau.VerificationTir(tir);
-                    //VerifierGagnant
-                    tableau.EnvoyerTir(tir, socket);
-                }
+            AfficherJeux();
+
+            if (tir.status == "check")
+            {
+                tableau.AjoutTir(tir);
+                tir.status = "changeTour";
+            }
+
+            AfficherJeux();
+
+            tableau.EnvoyerTir(tir, socket);
+
+            return "notWin";
+        }
+
+        public string AdversaireJouer(Socket socket)
+        {
+            Tir tir = tableau.RecevoirTir(socket);
+
+            if (tir.status == "toCheck")
+            {
+                tir = tableau.VerificationTir(tir);
+                bool gagnant = tableau.VerifierGagnant();
+                if (gagnant)
+                    tir.status = "win";
+
+                tableau.EnvoyerTir(tir, socket);
 
                 AfficherJeux();
+
 
                 bool nextTour = false;
                 while (nextTour != true)
@@ -61,32 +126,13 @@ namespace Serveur
                     tir = tableau.RecevoirTir(socket);
                     if (tir.status == "changeTour")
                         nextTour = true;
+                    if (tir.status == "newGame" || tir.status == "stop")
+                        return "";
                 }
 
-                AfficherJeux();
-
-                tir = tableau.ChoixTir();
-                tir.status = "toCheck";
-
-                tableau.EnvoyerTir(tir, socket);
-
-                tir = tableau.RecevoirTir(socket);
-
-                if (tir.status == "check")
-                {
-                    tableau.AjoutTir(tir);
-                    tir.status = "changeTour";
-                }
-
-                AfficherJeux();
-
-                tableau.EnvoyerTir(tir, socket);
             }
-
+            return "continu";
             
-
-
-
         }
 
         public void AfficherJeux()
