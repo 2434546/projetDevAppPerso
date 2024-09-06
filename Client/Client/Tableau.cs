@@ -14,6 +14,8 @@ namespace Client
         public string[] tableauAdversaire { get; set; }
         public string gagnant;
         int size;
+        int caseBateauPlace1;
+        int caseBateauPlace2;
 
         public Tableau()
         {
@@ -163,22 +165,22 @@ namespace Client
 
             string[] coord = input.Split(",");
 
-            if (!int.TryParse(coord[0], out int case1) || !int.TryParse(coord[1], out int case2))
+            if (!int.TryParse(coord[0], out caseBateauPlace1) || !int.TryParse(coord[1], out caseBateauPlace2))
             {
-                Console.WriteLine("IL FAUT UN INT");
+                Console.WriteLine("IL FAUT SAISIR UN ENTIER");
                 return false;
             }
 
-            if (Math.Abs(case1 - case2) == 1 || Math.Abs(case1 - case2) == size)
+            if (Math.Abs(caseBateauPlace1 - caseBateauPlace2) == 1 || Math.Abs(caseBateauPlace1 - caseBateauPlace2) == size)
             {
                 //return true;
 
-                if (tableauJoueur[case1 - 1] == null && tableauJoueur[case2 - 1] == null)
+                if (tableauJoueur[caseBateauPlace1 - 1] == null && tableauJoueur[caseBateauPlace2 - 1] == null)
                 {
-                    tableauJoueur[case1 - 1] = "BB";
-                    tableauJoueur[case2 - 1] = "BB";
+                    tableauJoueur[caseBateauPlace1 - 1] = "BB";
+                    tableauJoueur[caseBateauPlace2 - 1] = "BB";
 
-                    Console.WriteLine($"Le bateau a été placé aux coordonnées {case1} et {case2}");
+                    Console.WriteLine($"Le bateau a été placé aux coordonnées {caseBateauPlace1} et {caseBateauPlace2}");
                     return true;
                 }
 
@@ -192,14 +194,16 @@ namespace Client
         
         }
 
-        public string EnvoieConfirmation()
-        {
-            return "";
-        }
-
         public bool VerifierGagnant()
         {
-            return true;
+            if (tableauJoueur[caseBateauPlace1] == "BT" && tableauJoueur[caseBateauPlace2] == "BT")
+            {
+                return true;
+            }
+
+            else
+                return false;
+                
         }
     }
 }
