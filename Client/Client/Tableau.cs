@@ -142,17 +142,22 @@ namespace Client
         {
 
             //TODO Vérifier entré pas > 0 ou < que taille tableau Redemander question si bateau pas valide
+            string input = "";
+            string[] coord;
 
-            Console.WriteLine("Entrez les coordonnées de votre bateau (ex: 4,5) : ");
-            string input = Console.ReadLine();
-
-            string[] coord = input.Split(",");
-
-            if (!int.TryParse(coord[0], out int case1) || !int.TryParse(coord[1], out int case2))
+            do
             {
-                Console.WriteLine("IL FAUT UN INT");
-                return false;
-            }
+                Console.WriteLine("Entrez les coordonnées de votre bateau (ex: 4,5) : ");
+                input = Console.ReadLine();
+                coord = input.Split(",");
+                
+                if (coord.Length == 2 && int.TryParse(coord[0], out int case1) && int.TryParse(coord[1], out int case2) &&
+                    case1 >= 0 && case1 < size && case2 >= 0 && case2 < size)
+                {
+                    break;
+                }
+
+            } while(true);
 
             if (Math.Abs(case1 - case2) == 1 || Math.Abs(case1 - case2) == size)
             {
