@@ -17,6 +17,7 @@ namespace Client
 
         public Tableau()
         {
+            size = 4;
             this.tableauJoueur = new string[size * size];
             this.tableauAdversaire = new string[size * size];
             this.gagnant = "";
@@ -24,11 +25,14 @@ namespace Client
 
         public Tir VerificationTir(Tir tir)
         {
-            string emplacement = tableauJoueur[tir.coord];
-            if(emplacement == "B")
+            string emplacement = tableauJoueur[tir.coord - 1];
+            if(emplacement == "BB")
             {
+                tableauAdversaire[tir.coord - 1] = "BT";
                 tir.hit = true;
             }
+           
+            tableauAdversaire[tir.coord - 1] = "XX";
 
             tir.status = "check";
             return tir;
@@ -45,7 +49,7 @@ namespace Client
                 {
                     if (tableauJoueur[(i * size) + j] != null)
                     {
-                        Console.Write($"{tableauJoueur[(i * size) + j]}|");
+                        Console.Write($" {tableauJoueur[(i * size) + j]} |");
                     }
 
                     else
@@ -80,7 +84,7 @@ namespace Client
 
                         if(tableauAdversaire[(i * size) + j] != null)
                         {
-                            Console.Write($"{tableauAdversaire[(i * size) + j]}|");
+                            Console.Write($" {tableauAdversaire[(i * size) + j]} |");
                         }
 
                         else
@@ -119,26 +123,26 @@ namespace Client
 
         public Tir ChoixTir()
         {
-            int coordChoisi = 0;
-            Tir tir = new Tir(coordChoisi);
+            //TODO Faire une vérification pour empecher de tirer à la meme place
 
+            int coordChoisi = 0;
+            
             do
             {
                 Console.WriteLine("Veuillez choisir un une position ou tirer dans le tableau");
                 coordChoisi = Convert.ToInt32(Console.ReadLine());
             }
-            while (coordChoisi < 17 && coordChoisi > 0);
-            
+            while (coordChoisi > 17 && coordChoisi < 0);
+
+            Tir tir = new Tir(coordChoisi);
             return tir;
         }
 
-        public void AjouterTir(Tir tir)
+        public bool ChoixBateau()
         {
 
-        }
+            //TODO Vérifier entré pas > 0 ou < que taille tableau Redemander question si bateau pas valide
 
-        public bool ChoixBateau(bool joueur)
-        {
             Console.WriteLine("Entrez les coordonnées de votre bateau (ex: 4,5) : ");
             string input = Console.ReadLine();
 
@@ -150,8 +154,19 @@ namespace Client
                 return false;
             }
 
-            if (Math.Abs(case1 - case2) == 1)
+            if (Math.Abs(case1 - case2) == 1 || Math.Abs(case1 - case2) == size)
             {
+                //return true;
+
+                if (tableauJoueur[case1 - 1] == null && tableauJoueur[case2 - 1] == null)
+                {
+                    tableauJoueur[case1 - 1] = "BB";
+                    tableauJoueur[case2 - 1] = "BB";
+
+                    Console.WriteLine($"Le bateau a été placé aux coordonnées {case1} et {case2}");
+                    return true;
+                }
+
                 return true;
             }
             else
@@ -159,24 +174,17 @@ namespace Client
                 Console.WriteLine("Vous ne pouvez placer votre bateau que de façon vertical ou horizontal");
                 return false;
             }
-
-            string[] tableau = joueur ? tableauJoueur : tableauAdversaire;
-
-            if (tableau[case1] == "" && tableau[case2] == "")
-            {
-                tableau[case1] = "B";
-                tableau[case2] = "B";
-
-                Console.WriteLine($"Le bateau a été placé aux coordonnées {case1} et {case2}");
-                return true;
-            }
-
-            return true;
+        
         }
 
         public string EnvoieConfirmation()
         {
             return "";
+        }
+
+        public bool VerifierGagnant()
+        {
+            return true;
         }
     }
 }
