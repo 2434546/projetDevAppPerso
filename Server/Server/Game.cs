@@ -21,19 +21,23 @@ namespace Serveur
         public void StartGame(Socket socket)
         {
             //Attend que le serveur aille choisi
-            /*bool bateauChoisiClient = RecevoirChoixBateau(socket);
+            bool bateauChoisiClient = RecevoirChoixBateau(socket);
 
             bool bateauChoisi = false;
 
             if (bateauChoisiClient)
             {
+                AfficherJeux();
+
                 //Choisi sont bateau
                 bateauChoisi = tableau.ChoixBateau();
             }
-           
+
+            AfficherJeux();
+
 
             //Fait choisir le serveur
-            EnvoyerChoixBateau(bateauChoisi, socket);*/
+            EnvoyerChoixBateau(bateauChoisi, socket);
 
             
 
@@ -47,6 +51,8 @@ namespace Serveur
                     tableau.EnvoyerTir(tir, socket);
                 }
 
+                AfficherJeux();
+
                 bool nextTour = false;
                 while (nextTour != true)
                 {
@@ -55,7 +61,11 @@ namespace Serveur
                         nextTour = true;
                 }
 
-                tir = tableau.ChoixTir();
+                Console.WriteLine("ChangementTour");
+
+               
+
+                /*tir = tableau.ChoixTir();
                 tir.status = "toCheck";
 
                 tableau.EnvoyerTir(tir, socket);
@@ -69,7 +79,7 @@ namespace Serveur
                 }
                         
 
-                tableau.EnvoyerTir(tir, socket);
+                tableau.EnvoyerTir(tir, socket);*/
             }
 
             
@@ -77,6 +87,21 @@ namespace Serveur
 
 
         }
+
+        public void AfficherJeux()
+        {
+            Console.Clear();
+            Console.WriteLine("Tableau Joueur");
+            Console.WriteLine();
+            tableau.AffichageTableauJoueur();
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine("Tableau Adversaire");
+            Console.WriteLine();
+            tableau.AffichageTableauAdversaire();
+            Console.WriteLine();
+        }
+
 
         public void EnvoyerChoixBateau(bool bateauChoisi, Socket socket)
         {
