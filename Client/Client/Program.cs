@@ -6,7 +6,7 @@ using System.Text;
 byte[] bytes = new byte[1024];
 string message = string.Empty;
 
-/*try
+try
 {
     // Connect to a remote device.
     Console.Write("Entrée l'adresse du server : ");
@@ -28,11 +28,11 @@ string message = string.Empty;
 catch (Exception e)
 {
     Console.WriteLine(e.ToString());
-}*/
+}
 
 
 
-Tableau tableau1 = new Tableau();
+/*Tableau tableau1 = new Tableau();
 
 tableau1.AffichageTableauJoueur();
 Console.WriteLine();
@@ -57,7 +57,7 @@ while (true)
     tableau1.VerificationTir(tir);
 
 
-}
+}*/
 
 
 
