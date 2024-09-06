@@ -19,62 +19,110 @@ namespace Client
 
         public void StartGame(Socket socket)
         {
+            bool bateauChoisiServer = ChoisirBateau(socket);
+
+            if (bateauChoisiServer)
+            {
+                while (true)
+                {
+                    string win = JouerTour(socket);
+
+                    if (win == "notWin")
+                        AdversaireJouer(socket);
+                    else
+                        break;
+                  
+                }
+
+                Console.Clear();
+                Console.WriteLine("Vous avez gagné!!");
+                RestartGame(socket);           
+            }
+        }
+
+        public void RestartGame(Socket socket)
+        {
+            Console.WriteLine("Voulez-vous rejouer une partie. Oui(o) ou Non (n)");
+            string choix = "";
+
+            do
+            {
+                Console.WriteLine("Veuillez choisir un une position ou tirer dans le tableau");
+                choix = Console.ReadLine();
+                choix.ToLower();
+            }
+            while (choix != "o" && choix != "n");
+
+            if (choix == "o")
+                StartGame(socket);
+
+        }
+
+        public bool ChoisirBateau(Socket socket)
+        {
             AfficherJeux();
             //Choisi sont bateau
-           bool bateauChoisi = tableau.ChoixBateau();
+            bool bateauChoisi = tableau.ChoixBateau();
 
             AfficherJeux();
             //Fait choisir le serveur
             EnvoyerChoixBateau(bateauChoisi, socket);
 
             //Attend que le serveur aille choisi
-            bool bateauChoisiServer = RecevoirChoixBateau(socket);
+            Console.WriteLine("Votre adversaire choisi l'emplacement du bateau");
+            return RecevoirChoixBateau(socket);
+        }
 
-            if (bateauChoisiServer)
+        public string JouerTour(Socket socket)
+        {
+            Tir tir = tableau.ChoixTir();
+            tir.status = "toCheck";
+
+            tableau.EnvoyerTir(tir, socket);
+
+            tir = tableau.RecevoirTir(socket);
+
+            if(tir.status == "win")
             {
-                while (tableau.gagnant == "")
-                {
-                    Tir tir = tableau.ChoixTir();
-                    tir.status = "toCheck";
-
-                    tableau.EnvoyerTir(tir, socket);
-
-                    tir = tableau.RecevoirTir(socket);
-                    AfficherJeux();
-
-                    if (tir.status == "check")
-                    {
-                        tableau.AjoutTir(tir);
-                        tir.status = "changeTour";
-                    }
-
-                    AfficherJeux();
-
-
-                    //tableau.EnvoyerTir(tir, socket);
-
-                    /*tir = tableau.RecevoirTir(socket);
-
-                    if(tir.status == "toCheck")
-                    {
-                        tir = tableau.VerificationTir(tir);
-                        tableau.EnvoyerTir(tir, socket);
-                    }
-
-                    bool nextTour = false;
-                    while(nextTour != true)
-                    {
-                        tir = tableau.RecevoirTir(socket);
-                        if(tir.status == "changeTour")
-                            nextTour = true;
-                    }*/
-
-                }
-
+                tableau.AjoutTir(tir);
+                AfficherJeux();
+                return "win";
             }
 
+            AfficherJeux();
+
+            if (tir.status == "check")
+            {
+                tableau.AjoutTir(tir);
+                tir.status = "changeTour";
+            }
+
+            AfficherJeux();
+
+            tableau.EnvoyerTir(tir, socket);
+
+            return "notWin";
+        }
+
+        public void AdversaireJouer(Socket socket)
+        {
+            Tir tir = tableau.RecevoirTir(socket);
+
+            if (tir.status == "toCheck")
+            {
+                tir = tableau.VerificationTir(tir);
+                tableau.EnvoyerTir(tir, socket);
+            }
+            AfficherJeux();
 
 
+            bool nextTour = false;
+            while (nextTour != true)
+            {
+                tir = tableau.RecevoirTir(socket);
+                if (tir.status == "changeTour")
+                    nextTour = true;
+            }
         }
 
         public void AfficherJeux()

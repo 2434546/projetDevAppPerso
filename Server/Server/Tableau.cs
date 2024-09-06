@@ -26,6 +26,7 @@ namespace Serveur
 
         public Tir VerificationTir(Tir tir)
         {
+            //TODO Verifier en dehors tableau
             string emplacement = tableauJoueur[tir.coord - 1];
             if (emplacement == "BB")
             {

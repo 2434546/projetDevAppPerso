@@ -192,11 +192,6 @@ namespace Client
         
         }
 
-        public string EnvoieConfirmation()
-        {
-            return "";
-        }
-
         public bool VerifierGagnant()
         {
             return true;

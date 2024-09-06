@@ -21,6 +21,7 @@ namespace Serveur
         public void StartGame(Socket socket)
         {
             //Attend que le serveur aille choisi
+            Console.WriteLine("Votre adversaire choisi l'emplacement du bateau");
             bool bateauChoisiClient = RecevoirChoixBateau(socket);
 
             bool bateauChoisi = false;
@@ -48,6 +49,7 @@ namespace Serveur
                 if (tir.status == "toCheck")
                 {
                     tir = tableau.VerificationTir(tir);
+                    //VerifierGagnant
                     tableau.EnvoyerTir(tir, socket);
                 }
 
@@ -61,25 +63,24 @@ namespace Serveur
                         nextTour = true;
                 }
 
-                Console.WriteLine("ChangementTour");
+                AfficherJeux();
 
-               
-
-                /*tir = tableau.ChoixTir();
+                tir = tableau.ChoixTir();
                 tir.status = "toCheck";
 
                 tableau.EnvoyerTir(tir, socket);
 
                 tir = tableau.RecevoirTir(socket);
 
-                if(tir.status == "check")
+                if (tir.status == "check")
                 {
-                    tableau.AjouterTir(tir);
+                    tableau.AjoutTir(tir);
                     tir.status = "changeTour";
                 }
-                        
 
-                tableau.EnvoyerTir(tir, socket);*/
+                AfficherJeux();
+
+                tableau.EnvoyerTir(tir, socket);
             }
 
             
