@@ -29,14 +29,28 @@ namespace Serveur
             string emplacement = tableauJoueur[tir.coord - 1];
             if (emplacement == "BB")
             {
-                tableauAdversaire[tir.coord - 1] = "BT";
+                tableauJoueur[tir.coord - 1] = "BT";
                 tir.hit = true;
             }
-
-            tableauAdversaire[tir.coord - 1] = "XX";
+            else
+            {
+                tableauJoueur[tir.coord - 1] = "XX";
+            }
 
             tir.status = "check";
             return tir;
+        }
+
+        public void AjoutTir(Tir tir)
+        {
+            if (tir.hit)
+            {
+                tableauAdversaire[tir.coord - 1] = "BT";
+            }
+            else
+            {
+                tableauAdversaire[tir.coord - 1] = "XX";
+            }
         }
 
         public void AffichageTableauJoueur()

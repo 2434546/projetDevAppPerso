@@ -19,16 +19,18 @@ namespace Client
 
         public void StartGame(Socket socket)
         {
+            AfficherJeux();
             //Choisi sont bateau
-           /* bool bateauChoisi = tableau.ChoixBateau();
+           bool bateauChoisi = tableau.ChoixBateau();
 
+            AfficherJeux();
             //Fait choisir le serveur
             EnvoyerChoixBateau(bateauChoisi, socket);
 
             //Attend que le serveur aille choisi
-            bool bateauChoisiServer = RecevoirChoixBateau(socket);*/
+            bool bateauChoisiServer = RecevoirChoixBateau(socket);
 
-            if (true)
+            if (bateauChoisiServer)
             {
                 while (tableau.gagnant == "")
                 {
@@ -38,17 +40,20 @@ namespace Client
                     tableau.EnvoyerTir(tir, socket);
 
                     tir = tableau.RecevoirTir(socket);
+                    AfficherJeux();
 
-                    if(tir.status == "check")
+                    if (tir.status == "check")
                     {
-                        //tableau.AjouterTir(tir);
+                        tableau.AjoutTir(tir);
                         tir.status = "changeTour";
                     }
-                        
 
-                    tableau.EnvoyerTir(tir, socket);
+                    AfficherJeux();
 
-                    tir = tableau.RecevoirTir(socket);
+
+                    //tableau.EnvoyerTir(tir, socket);
+
+                    /*tir = tableau.RecevoirTir(socket);
 
                     if(tir.status == "toCheck")
                     {
@@ -62,7 +67,7 @@ namespace Client
                         tir = tableau.RecevoirTir(socket);
                         if(tir.status == "changeTour")
                             nextTour = true;
-                    }
+                    }*/
 
                 }
 
@@ -70,6 +75,20 @@ namespace Client
 
 
 
+        }
+
+        public void AfficherJeux()
+        {
+            Console.Clear();
+            Console.WriteLine("Tableau Joueur");
+            Console.WriteLine();
+            tableau.AffichageTableauJoueur();
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine("Tableau Adversaire");
+            Console.WriteLine();
+            tableau.AffichageTableauAdversaire();
+            Console.WriteLine();
         }
 
         public void EnvoyerChoixBateau(bool bateauChoisi, Socket socket)
