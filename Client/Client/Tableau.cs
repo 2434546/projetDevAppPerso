@@ -28,29 +28,14 @@ namespace Client
             string emplacement = tableauJoueur[tir.coord - 1];
             if(emplacement == "BB")
             {
-                tableauJoueur[tir.coord - 1] = "BT";
+                tableauAdversaire[tir.coord - 1] = "BT";
                 tir.hit = true;
             }
-            else
-            {
-                tableauJoueur[tir.coord - 1] = "XX";
-            }
+           
+            tableauAdversaire[tir.coord - 1] = "XX";
 
             tir.status = "check";
             return tir;
-        }
-
-        public void AjoutTir(Tir tir)
-        {
-            if (tir.hit)
-            {
-                tableauAdversaire[tir.coord - 1] = "BT";
-            }
-            else
-            {
-                tableauAdversaire[tir.coord - 1] = "XX";
-            }
-
         }
 
         public void AffichageTableauJoueur()
@@ -155,47 +140,61 @@ namespace Client
 
         public bool ChoixBateau()
         {
-
-            //TODO Vérifier entré pas > 0 ou < que taille tableau Redemander question si bateau pas valide
-            string input = "";
+            bool placementValide = false;
+            int case1 = 0, case2 = 0;
             string[] coord;
 
             do
             {
                 Console.WriteLine("Entrez les coordonnées de votre bateau (ex: 4,5) : ");
-                input = Console.ReadLine();
-                coord = input.Split(",");
-                
-                if (coord.Length == 2 && int.TryParse(coord[0], out int case1) && int.TryParse(coord[1], out int case2) &&
-                    case1 >= 0 && case1 < size && case2 >= 0 && case2 < size)
+                string input = Console.ReadLine();
+
+                if (!string.IsNullOrEmpty(input) && input.Contains(","))
                 {
-                    break;
+                    coord = input.Split(",");
+
+                    if (coord.Length == 2 && int.TryParse(coord[0], out case1) && int.TryParse(coord[1], out case2))
+                    {
+                        if (case1 >= 1 && case1 <= size * size && case2 >= 1 && case2 <= size * size)
+                        {
+                           
+                            if (Math.Abs(case1 - case2) == 1 || Math.Abs(case1 - case2) == size)
+                            {
+                                if (tableauJoueur[case1 - 1] == null && tableauJoueur[case2 - 1] == null)
+                                {
+                                    tableauJoueur[case1 - 1] = "BB";
+                                    tableauJoueur[case2 - 1] = "BB";
+                                    Console.WriteLine($"Le bateau a été placé aux coordonnées {case1} et {case2}");
+                                    placementValide = true; 
+                                }
+                            }
+                            else
+                            {
+                                Console.WriteLine("Les coordonnées ne sont pas alignées. Le bateau doit être placé horizontalement ou verticalement.");
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("Coordonnées hors limites. Veuillez choisir des positions valides dans le tableau.");
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Entrée invalide. Veuillez entrer des nombres entiers.");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Entrée invalide. Veuillez entrer deux entiers séparés par une virgule.");
                 }
 
-            } while(true);
+            } while (!placementValide);
 
-            if (Math.Abs(case1 - case2) == 1 || Math.Abs(case1 - case2) == size)
-            {
-                //return true;
-
-                if (tableauJoueur[case1 - 1] == null && tableauJoueur[case2 - 1] == null)
-                {
-                    tableauJoueur[case1 - 1] = "BB";
-                    tableauJoueur[case2 - 1] = "BB";
-
-                    Console.WriteLine($"Le bateau a été placé aux coordonnées {case1} et {case2}");
-                    return true;
-                }
-
-                return true;
-            }
-            else
-            {
-                Console.WriteLine("Vous ne pouvez placer votre bateau que de façon vertical ou horizontal");
-                return false;
-            }
-        
+            return placementValide;
         }
+
+
+
 
         public string EnvoieConfirmation()
         {

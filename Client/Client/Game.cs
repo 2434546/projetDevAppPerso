@@ -44,7 +44,7 @@ namespace Client
 
                     if (tir.status == "check")
                     {
-                        tableau.AjoutTir(tir);
+                       // tableau.AjoutTir(tir);
                         tir.status = "changeTour";
                     }
 
