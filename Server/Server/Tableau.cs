@@ -11,21 +11,23 @@ namespace Serveur
 {
     public class Tableau
     {
-        public string[] tableauJoueur { get; set; }
-        public string[] tableauAdversaire { get; set; }
-        public string gagnant;
+        private string[] tableauJoueur { get; set; }
+        private string[] tableauAdversaire { get; set; }
         int size;
+        int caseBateauPlace1;
+        int caseBateauPlace2;
+
 
         public Tableau()
         {
             size = 4;
             this.tableauJoueur = new string[size * size];
             this.tableauAdversaire = new string[size * size];
-            this.gagnant = "";
         }
 
         public Tir VerificationTir(Tir tir)
         {
+            //TODO Verifier en dehors tableau
             string emplacement = tableauJoueur[tir.coord - 1];
             if (emplacement == "BB")
             {
@@ -212,14 +214,23 @@ namespace Serveur
             return placementValide;
         }
 
-        public string EnvoieConfirmation()
-        {
-            return "";
-        }
-
         public bool VerifierGagnant()
         {
-            return true;
+            //TODO s'organiser pour que le code soit facilement modifiable si des s'ajoute au jeu ou si les dimensions changent
+            if (tableauJoueur[caseBateauPlace1 - 1] == "BT" && tableauJoueur[caseBateauPlace2 - 1] == "BT")
+            {
+                return true;
+            }
+
+            else
+                return false;
+
+        }
+
+        public void ClearTableau()
+        {
+            tableauAdversaire = new string[size * size];
+            tableauJoueur = new string[size * size];
         }
     }
 }
