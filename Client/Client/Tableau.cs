@@ -162,7 +162,11 @@ namespace Client
 
                             if (Math.Abs(case1 - case2) == 1 || Math.Abs(case1 - case2) == size)
                             {
-                                if (tableauJoueur[case1 - 1] == null && tableauJoueur[case2 - 1] == null)
+                                if (Math.Abs(case1 - case2) == 1 && (Math.Max(case1, case2) % size == 1))
+                                {
+                                    Console.WriteLine("Les cases sélectionné sont placées sur deux lignes différentes opposé");
+                                }
+                                else if (tableauJoueur[case1 - 1] == null && tableauJoueur[case2 - 1] == null)
                                 {
                                     tableauJoueur[case1 - 1] = "BB";
                                     tableauJoueur[case2 - 1] = "BB";
