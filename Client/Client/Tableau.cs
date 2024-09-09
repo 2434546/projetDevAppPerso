@@ -10,9 +10,8 @@ namespace Client
 {
     public class Tableau
     {
-        public string[] tableauJoueur { get; set; }
-        public string[] tableauAdversaire { get; set; }
-        public string gagnant;
+        private string[] tableauJoueur { get; set; }
+        private string[] tableauAdversaire { get; set; }
         int size;
         int caseBateauPlace1;
         int caseBateauPlace2;
@@ -22,7 +21,6 @@ namespace Client
             size = 4;
             this.tableauJoueur = new string[size * size];
             this.tableauAdversaire = new string[size * size];
-            this.gagnant = "";
         }
 
         public Tir VerificationTir(Tir tir)
@@ -132,7 +130,7 @@ namespace Client
             
             do
             {
-                Console.WriteLine("Veuillez choisir un une position ou tirer dans le tableau");
+                Console.WriteLine("Veuillez choisir une position où tirer dans le tableau");
                 coordChoisi = Convert.ToInt32(Console.ReadLine());
 
                 if (coordChoisi >= 1 && coordChoisi <= size * size)
@@ -159,11 +157,29 @@ namespace Client
 
         public bool ChoixBateau()
         {
+
             bool placementValide = false;
             int case1, case2;
             string[] coord;
 
             do
+
+            Console.WriteLine("Entrez les coordonnées de votre bateau (ex: 4,5) : ");
+            string input = Console.ReadLine();
+            string[]? coord;
+
+            coord = input.Split(",");
+
+            if(coord != null)
+                coord = input.Split(".");
+
+            if (!int.TryParse(coord[0], out caseBateauPlace1) || !int.TryParse(coord[1], out caseBateauPlace2))
+            {
+                Console.WriteLine("IL FAUT SAISIR UN ENTIER");
+                return false;
+            }
+
+            if (Math.Abs(caseBateauPlace1 - caseBateauPlace2) == 1 || Math.Abs(caseBateauPlace1 - caseBateauPlace2) == size)
             {
                 Console.WriteLine("Entrez les coordonnées de votre bateau (ex: 4,5) : ");
                 string input = Console.ReadLine();
@@ -223,7 +239,9 @@ namespace Client
 
         public bool VerifierGagnant()
         {
-            if (tableauJoueur[caseBateauPlace1] == "BT" && tableauJoueur[caseBateauPlace2] == "BT")
+
+            //TODO s'organiser pour que le code soit facilement modifiable si des s'ajoute au jeu ou si les dimensions changent
+            if (tableauJoueur[caseBateauPlace1 - 1] == "BT" && tableauJoueur[caseBateauPlace2 - 1] == "BT")
             {
                 return true;
             }
@@ -232,5 +250,14 @@ namespace Client
                 return false;
                 
         }
+
+        public void ClearTableau()
+        {
+            tableauAdversaire = new string[size * size];
+            tableauJoueur = new string[size * size];
+        }
+
+        
+
     }
 }
