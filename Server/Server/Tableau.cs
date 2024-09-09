@@ -11,9 +11,8 @@ namespace Serveur
 {
     public class Tableau
     {
-        public string[] tableauJoueur { get; set; }
-        public string[] tableauAdversaire { get; set; }
-        public string gagnant;
+        private string[] tableauJoueur { get; set; }
+        private string[] tableauAdversaire { get; set; }
         int size;
         int caseBateauPlace1;
         int caseBateauPlace2;
@@ -24,7 +23,6 @@ namespace Serveur
             size = 4;
             this.tableauJoueur = new string[size * size];
             this.tableauAdversaire = new string[size * size];
-            this.gagnant = "";
         }
 
         public Tir VerificationTir(Tir tir)
@@ -164,8 +162,12 @@ namespace Serveur
 
             Console.WriteLine("Entrez les coordonnées de votre bateau (ex: 4,5) : ");
             string input = Console.ReadLine();
+            string[]? coord;
 
-            string[] coord = input.Split(",");
+            coord = input.Split(",");
+
+            if (coord != null)
+                coord = input.Split(".");
 
             if (!int.TryParse(coord[0], out caseBateauPlace1) || !int.TryParse(coord[1], out caseBateauPlace2))
             {
@@ -206,6 +208,12 @@ namespace Serveur
             else
                 return false;
 
+        }
+
+        public void ClearTableau()
+        {
+            tableauAdversaire = new string[size * size];
+            tableauJoueur = new string[size * size];
         }
     }
 }

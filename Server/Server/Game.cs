@@ -44,10 +44,17 @@ namespace Serveur
 
         public void RestartGame(Socket socket)
         {
-            Tir tir = tableau.RecevoirTir(socket);
+            Console.Clear();
+            Console.WriteLine("Votre adversaire décide s'il veut refaire une partie ...");
 
-            if (tir.status == "newGame")
-                StartGame(socket);
+            Tir? tir = tableau.RecevoirTir(socket);
+
+            if(tir != null)
+                if (tir.status == "newGame")
+                {
+                    tableau.ClearTableau();
+                    StartGame(socket);
+                }
         }
 
         public void ChoisirBateau(Socket socket)
@@ -116,6 +123,9 @@ namespace Serveur
                     tir.status = "win";
 
                 tableau.EnvoyerTir(tir, socket);
+
+                if (tir.status == "win")
+                    return "";
 
                 AfficherJeux();
 

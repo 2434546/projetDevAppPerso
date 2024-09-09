@@ -20,18 +20,24 @@ namespace Client
         public void StartGame(Socket socket)
         {
             bool bateauChoisiServer = ChoisirBateau(socket);
+            string win = "notWin";
 
             if (bateauChoisiServer)
             {
                 while (true)
                 {
-                    string win = JouerTour(socket);
 
+                    string status;
                     if (win == "notWin")
-                        AdversaireJouer(socket);
+                        status = JouerTour(socket);
                     else
                         break;
-                  
+
+                    if (status == "continu")
+                        win = AdversaireJouer(socket);
+                    else
+                        break;
+
                 }
 
                 Console.Clear();
@@ -43,11 +49,10 @@ namespace Client
         public void RestartGame(Socket socket)
         {
             Console.WriteLine("Voulez-vous rejouer une partie. Oui(o) ou Non (n)");
-            string choix = "";
+            string? choix = "";
 
             do
             {
-                Console.WriteLine("Veuillez choisir un une position ou tirer dans le tableau");
                 choix = Console.ReadLine();
                 choix.ToLower();
             }
@@ -55,9 +60,11 @@ namespace Client
 
             if (choix == "o")
             {
-                Tir tir = new Tir(1);
+                Tir? tir = new Tir(1);
                 tir.status = "newGame";
                 tableau.EnvoyerTir(tir, socket);
+
+                tableau.ClearTableau();
                 StartGame(socket);
 
             }
@@ -66,6 +73,7 @@ namespace Client
                 Tir tir = new Tir(1);
                 tir.status = "stop";
                 tableau.EnvoyerTir(tir, socket);
+                
             }
         }
 
@@ -112,10 +120,10 @@ namespace Client
 
             tableau.EnvoyerTir(tir, socket);
 
-            return "notWin";
+            return "continu";
         }
 
-        public void AdversaireJouer(Socket socket)
+        public string AdversaireJouer(Socket socket)
         {
             Tir tir = tableau.RecevoirTir(socket);
 
@@ -125,19 +133,27 @@ namespace Client
                 bool gagnant = tableau.VerifierGagnant();
                 if (gagnant)
                     tir.status = "win";
-                    
+
                 tableau.EnvoyerTir(tir, socket);
-            }
-            AfficherJeux();
+
+                if (tir.status == "win")
+                    return "";
+
+                AfficherJeux();
 
 
-            bool nextTour = false;
-            while (nextTour != true)
-            {
-                tir = tableau.RecevoirTir(socket);
-                if (tir.status == "changeTour")
-                    nextTour = true;
+                bool nextTour = false;
+                while (nextTour != true)
+                {
+                    tir = tableau.RecevoirTir(socket);
+                    if (tir.status == "changeTour")
+                        nextTour = true;
+                    if (tir.status == "newGame" || tir.status == "stop")
+                        return "";
+                }
+
             }
+            return "notWin";
         }
 
         public void AfficherJeux()
@@ -167,5 +183,6 @@ namespace Client
             int bytesRec = socket.Receive(bytes);
             return Serialiser.DeserialiseBoolFromJson(Encoding.ASCII.GetString(bytes, 0, bytesRec));
         }
+
     }
 }
