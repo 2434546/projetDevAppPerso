@@ -146,42 +146,10 @@ namespace Client
                 while (nextTour != true)
                 {
                     tir = tableau.RecevoirTir(socket);
-<<<<<<< HEAD
-                    AfficherJeux();
-
-                    if (tir.status == "check")
-                    {
-                       // tableau.AjoutTir(tir);
-                        tir.status = "changeTour";
-                    }
-
-                    AfficherJeux();
-
-
-                    //tableau.EnvoyerTir(tir, socket);
-
-                    /*tir = tableau.RecevoirTir(socket);
-
-                    if(tir.status == "toCheck")
-                    {
-                        tir = tableau.VerificationTir(tir);
-                        tableau.EnvoyerTir(tir, socket);
-                    }
-
-                    bool nextTour = false;
-                    while(nextTour != true)
-                    {
-                        tir = tableau.RecevoirTir(socket);
-                        if(tir.status == "changeTour")
-                            nextTour = true;
-                    }*/
-
-=======
                     if (tir.status == "changeTour")
                         nextTour = true;
                     if (tir.status == "newGame" || tir.status == "stop")
                         return "";
->>>>>>> origin
                 }
 
             }
