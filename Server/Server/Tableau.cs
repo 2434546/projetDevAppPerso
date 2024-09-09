@@ -159,23 +159,21 @@ namespace Serveur
         {
             bool placementValide = false;
             int case1, case2;
-            string[] coord;
-
+            string[]? coord;
 
             do
+            {
 
             Console.WriteLine("Entrez les coordonnées de votre bateau (ex: 4,5) : ");
             string input = Console.ReadLine();
-            string[]? coord;
-
-            coord = input.Split(",");
-
-            if (coord != null)
-                coord = input.Split(".");
 
                 if (!string.IsNullOrEmpty(input) && input.Contains(","))
                 {
+
                     coord = input.Split(",");
+
+                    if (coord != null)
+                        coord = input.Split(".");
 
                     if (coord.Length == 2 && int.TryParse(coord[0], out case1) && int.TryParse(coord[1], out case2))
                     {
@@ -219,6 +217,19 @@ namespace Serveur
             } while (!placementValide);
 
             return placementValide;
+        }
+
+        public void AjoutTir(Tir tir)
+        {
+            if (tir.hit)
+            {
+                tableauAdversaire[tir.coord - 1] = "BT";
+            }
+            else
+            {
+                tableauAdversaire[tir.coord - 1] = "XX";
+            }
+
         }
 
         public bool VerifierGagnant()
