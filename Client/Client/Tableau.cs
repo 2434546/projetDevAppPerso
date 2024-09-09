@@ -143,10 +143,9 @@ namespace Client
         public bool ChoixBateau()
         {
             bool placementValide = false;
-            int case1 = 0, case2 = 0;
+            int case1, case2;
             string[] coord;
 
-<<<<<<< HEAD
             do
             {
                 Console.WriteLine("Entrez les coordonnées de votre bateau (ex: 4,5) : ");
@@ -160,7 +159,7 @@ namespace Client
                     {
                         if (case1 >= 1 && case1 <= size * size && case2 >= 1 && case2 <= size * size)
                         {
-                           
+
                             if (Math.Abs(case1 - case2) == 1 || Math.Abs(case1 - case2) == size)
                             {
                                 if (tableauJoueur[case1 - 1] == null && tableauJoueur[case2 - 1] == null)
@@ -168,7 +167,7 @@ namespace Client
                                     tableauJoueur[case1 - 1] = "BB";
                                     tableauJoueur[case2 - 1] = "BB";
                                     Console.WriteLine($"Le bateau a été placé aux coordonnées {case1} et {case2}");
-                                    placementValide = true; 
+                                    placementValide = true;
                                 }
                             }
                             else
@@ -189,32 +188,6 @@ namespace Client
                 else
                 {
                     Console.WriteLine("Entrée invalide. Veuillez entrer deux entiers séparés par une virgule.");
-=======
-            //TODO Vérifier entré pas > 0 ou < que taille tableau Redemander question si bateau pas valide
-
-            Console.WriteLine("Entrez les coordonnées de votre bateau (ex: 4,5) : ");
-            string input = Console.ReadLine();
-
-            string[] coord = input.Split(",");
-
-            if (!int.TryParse(coord[0], out caseBateauPlace1) || !int.TryParse(coord[1], out caseBateauPlace2))
-            {
-                Console.WriteLine("IL FAUT SAISIR UN ENTIER");
-                return false;
-            }
-
-            if (Math.Abs(caseBateauPlace1 - caseBateauPlace2) == 1 || Math.Abs(caseBateauPlace1 - caseBateauPlace2) == size)
-            {
-                //return true;
-
-                if (tableauJoueur[caseBateauPlace1 - 1] == null && tableauJoueur[caseBateauPlace2 - 1] == null)
-                {
-                    tableauJoueur[caseBateauPlace1 - 1] = "BB";
-                    tableauJoueur[caseBateauPlace2 - 1] = "BB";
-
-                    Console.WriteLine($"Le bateau a été placé aux coordonnées {caseBateauPlace1} et {caseBateauPlace2}");
-                    return true;
->>>>>>> 7e15b4946bfb7a9bf368f360e053657b285fb5e7
                 }
 
             } while (!placementValide);
@@ -222,17 +195,11 @@ namespace Client
             return placementValide;
         }
 
-<<<<<<< HEAD
-
-
-
         public string EnvoieConfirmation()
         {
             return "";
         }
 
-=======
->>>>>>> 7e15b4946bfb7a9bf368f360e053657b285fb5e7
         public bool VerifierGagnant()
         {
             if (tableauJoueur[caseBateauPlace1] == "BT" && tableauJoueur[caseBateauPlace2] == "BT")
