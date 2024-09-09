@@ -128,13 +128,30 @@ namespace Client
             //TODO Faire une vérification pour empecher de tirer à la meme place
 
             int coordChoisi = 0;
+            bool caseValide = false;
             
             do
             {
                 Console.WriteLine("Veuillez choisir un une position ou tirer dans le tableau");
                 coordChoisi = Convert.ToInt32(Console.ReadLine());
+
+                if (coordChoisi >= 1 && coordChoisi <= size * size)
+                {
+                    if (tableauAdversaire[coordChoisi - 1] != "XX" && tableauAdversaire[coordChoisi - 1] != "BT")
+                    {
+                        caseValide = true;
+                    }
+                    else
+                    {
+                        Console.WriteLine("La case a déjà été choisie.");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Coord hors limites");
+                }
             }
-            while (coordChoisi > 17 && coordChoisi < 0);
+            while (!caseValide);
 
             Tir tir = new Tir(coordChoisi);
             return tir;
