@@ -185,7 +185,7 @@ namespace Client
 
                     coord = input.Split(",");
 
-                    if (coord != null)
+                    if (coord == null)
                         coord = input.Split(".");
 
                     if (coord.Length == 2 && int.TryParse(coord[0], out case1) && int.TryParse(coord[1], out case2))
