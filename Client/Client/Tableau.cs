@@ -28,29 +28,14 @@ namespace Client
             string emplacement = tableauJoueur[tir.coord - 1];
             if(emplacement == "BB")
             {
-                tableauJoueur[tir.coord - 1] = "BT";
+                tableauAdversaire[tir.coord - 1] = "BT";
                 tir.hit = true;
             }
-            else
-            {
-                tableauJoueur[tir.coord - 1] = "XX";
-            }
+           
+            tableauAdversaire[tir.coord - 1] = "XX";
 
             tir.status = "check";
             return tir;
-        }
-
-        public void AjoutTir(Tir tir)
-        {
-            if (tir.hit)
-            {
-                tableauAdversaire[tir.coord - 1] = "BT";
-            }
-            else
-            {
-                tableauAdversaire[tir.coord - 1] = "XX";
-            }
-
         }
 
         public void AffichageTableauJoueur()
@@ -141,13 +126,30 @@ namespace Client
             //TODO Faire une vérification pour empecher de tirer à la meme place
 
             int coordChoisi = 0;
+            bool caseValide = false;
             
             do
             {
                 Console.WriteLine("Veuillez choisir une position où tirer dans le tableau");
                 coordChoisi = Convert.ToInt32(Console.ReadLine());
+
+                if (coordChoisi >= 1 && coordChoisi <= size * size)
+                {
+                    if (tableauAdversaire[coordChoisi - 1] != "XX" && tableauAdversaire[coordChoisi - 1] != "BT")
+                    {
+                        caseValide = true;
+                    }
+                    else
+                    {
+                        Console.WriteLine("La case a déjà été choisie.");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Coord hors limites");
+                }
             }
-            while (coordChoisi > 17 && coordChoisi < 0);
+            while (!caseValide);
 
             Tir tir = new Tir(coordChoisi);
             return tir;
@@ -155,9 +157,12 @@ namespace Client
 
         public bool ChoixBateau()
         {
-            //TODO Faire une classe bateau ou on peut ajouter différentes dimension de bateau
 
-            //TODO Vérifier entré pas > 0 ou < que taille tableau Redemander question si bateau pas valide
+            bool placementValide = false;
+            int case1, case2;
+            string[] coord;
+
+            do
 
             Console.WriteLine("Entrez les coordonnées de votre bateau (ex: 4,5) : ");
             string input = Console.ReadLine();
@@ -176,25 +181,60 @@ namespace Client
 
             if (Math.Abs(caseBateauPlace1 - caseBateauPlace2) == 1 || Math.Abs(caseBateauPlace1 - caseBateauPlace2) == size)
             {
-                //return true;
+                Console.WriteLine("Entrez les coordonnées de votre bateau (ex: 4,5) : ");
+                string input = Console.ReadLine();
 
-                if (tableauJoueur[caseBateauPlace1 - 1] == null && tableauJoueur[caseBateauPlace2 - 1] == null)
+                if (!string.IsNullOrEmpty(input) && input.Contains(","))
                 {
-                    tableauJoueur[caseBateauPlace1 - 1] = "BB";
-                    tableauJoueur[caseBateauPlace2 - 1] = "BB";
+                    coord = input.Split(",");
 
-                    Console.WriteLine($"Le bateau a été placé aux coordonnées {caseBateauPlace1} et {caseBateauPlace2}");
-                    return true;
+                    if (coord.Length == 2 && int.TryParse(coord[0], out case1) && int.TryParse(coord[1], out case2))
+                    {
+                        if (case1 >= 1 && case1 <= size * size && case2 >= 1 && case2 <= size * size)
+                        {
+
+                            if (Math.Abs(case1 - case2) == 1 || Math.Abs(case1 - case2) == size)
+                            {
+                                if (Math.Abs(case1 - case2) == 1 && (Math.Max(case1, case2) % size == 1))
+                                {
+                                    Console.WriteLine("Les cases sélectionné sont placées sur deux lignes différentes opposé");
+                                }
+                                else if (tableauJoueur[case1 - 1] == null && tableauJoueur[case2 - 1] == null)
+                                {
+                                    tableauJoueur[case1 - 1] = "BB";
+                                    tableauJoueur[case2 - 1] = "BB";
+                                    Console.WriteLine($"Le bateau a été placé aux coordonnées {case1} et {case2}");
+                                    placementValide = true;
+                                }
+                            }
+                            else
+                            {
+                                Console.WriteLine("Les coordonnées ne sont pas alignées. Le bateau doit être placé horizontalement ou verticalement.");
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("Coordonnées hors limites. Veuillez choisir des positions valides dans le tableau.");
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Entrée invalide. Veuillez entrer des nombres entiers.");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Entrée invalide. Veuillez entrer deux entiers séparés par une virgule.");
                 }
 
-                return true;
-            }
-            else
-            {
-                Console.WriteLine("Vous ne pouvez placer votre bateau que de façon vertical ou horizontal");
-                return false;
-            }
-        
+            } while (!placementValide);
+
+            return placementValide;
+        }
+
+        public string EnvoieConfirmation()
+        {
+            return "";
         }
 
         public bool VerifierGagnant()
