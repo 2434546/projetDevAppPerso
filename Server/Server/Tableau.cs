@@ -200,6 +200,7 @@ namespace Serveur
 
         public bool VerifierGagnant()
         {
+            //TODO s'organiser pour que le code soit facilement modifiable si des s'ajoute au jeu ou si les dimensions changent
             if (tableauJoueur[caseBateauPlace1 - 1] == "BT" && tableauJoueur[caseBateauPlace2 - 1] == "BT")
             {
                 return true;

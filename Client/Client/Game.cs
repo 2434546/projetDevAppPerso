@@ -159,6 +159,8 @@ namespace Client
         public void AfficherJeux()
         {
             Console.Clear();
+            AfficherLegende();
+            Console.WriteLine();
             Console.WriteLine("Tableau Joueur");
             Console.WriteLine();
             tableau.AffichageTableauJoueur();
@@ -168,6 +170,14 @@ namespace Client
             Console.WriteLine();
             tableau.AffichageTableauAdversaire();
             Console.WriteLine();
+        }
+
+        public void AfficherLegende()
+        {
+            Console.WriteLine("LÉGENDE :");
+            Console.WriteLine("XX = Tir dans l'eau");
+            Console.WriteLine("BB = Position du bateau");
+            Console.WriteLine("BT = Partie de bateau touché");
         }
 
         public void EnvoyerChoixBateau(bool bateauChoisi, Socket socket)
