@@ -146,7 +146,7 @@ namespace Client
             
             do
             {
-                Console.WriteLine("Veuillez choisir un une position ou tirer dans le tableau");
+                Console.WriteLine("Veuillez choisir une position où tirer dans le tableau");
                 coordChoisi = Convert.ToInt32(Console.ReadLine());
             }
             while (coordChoisi > 17 && coordChoisi < 0);
@@ -157,6 +157,7 @@ namespace Client
 
         public bool ChoixBateau()
         {
+            //TODO Faire une classe bateau ou on peut ajouter différentes dimension de bateau
 
             //TODO Vérifier entré pas > 0 ou < que taille tableau Redemander question si bateau pas valide
 
@@ -196,6 +197,7 @@ namespace Client
 
         public bool VerifierGagnant()
         {
+            //TODO s'organiser pour que le code soit facilement modifiable si des s'ajoute au jeu ou si les dimensions changent
             if (tableauJoueur[caseBateauPlace1] == "BT" && tableauJoueur[caseBateauPlace2] == "BT")
             {
                 return true;
@@ -205,5 +207,8 @@ namespace Client
                 return false;
                 
         }
+
+        
+
     }
 }
