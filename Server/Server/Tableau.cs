@@ -11,21 +11,23 @@ namespace Serveur
 {
     public class Tableau
     {
-        public string[] tableauJoueur { get; set; }
-        public string[] tableauAdversaire { get; set; }
-        public string gagnant;
+        private string[] tableauJoueur { get; set; }
+        private string[] tableauAdversaire { get; set; }
         int size;
+        int caseBateauPlace1;
+        int caseBateauPlace2;
+
 
         public Tableau()
         {
             size = 4;
             this.tableauJoueur = new string[size * size];
             this.tableauAdversaire = new string[size * size];
-            this.gagnant = "";
         }
 
         public Tir VerificationTir(Tir tir)
         {
+            //TODO Verifier en dehors tableau
             string emplacement = tableauJoueur[tir.coord - 1];
             if (emplacement == "BB")
             {
@@ -160,25 +162,29 @@ namespace Serveur
 
             Console.WriteLine("Entrez les coordonnées de votre bateau (ex: 4,5) : ");
             string input = Console.ReadLine();
+            string[]? coord;
 
-            string[] coord = input.Split(",");
+            coord = input.Split(",");
 
-            if (!int.TryParse(coord[0], out int case1) || !int.TryParse(coord[1], out int case2))
+            if (coord != null)
+                coord = input.Split(".");
+
+            if (!int.TryParse(coord[0], out caseBateauPlace1) || !int.TryParse(coord[1], out caseBateauPlace2))
             {
-                Console.WriteLine("IL FAUT UN INT");
+                Console.WriteLine("IL FAUT SAISIR UN ENTIER");
                 return false;
             }
 
-            if (Math.Abs(case1 - case2) == 1 || Math.Abs(case1 - case2) == size)
+            if (Math.Abs(caseBateauPlace1 - caseBateauPlace2) == 1 || Math.Abs(caseBateauPlace1 - caseBateauPlace2) == size)
             {
                 //return true;
 
-                if (tableauJoueur[case1 - 1] == null && tableauJoueur[case2 - 1] == null)
+                if (tableauJoueur[caseBateauPlace1 - 1] == null && tableauJoueur[caseBateauPlace2 - 1] == null)
                 {
-                    tableauJoueur[case1 - 1] = "BB";
-                    tableauJoueur[case2 - 1] = "BB";
+                    tableauJoueur[caseBateauPlace1 - 1] = "BB";
+                    tableauJoueur[caseBateauPlace2 - 1] = "BB";
 
-                    Console.WriteLine($"Le bateau a été placé aux coordonnées {case1} et {case2}");
+                    Console.WriteLine($"Le bateau a été placé aux coordonnées {caseBateauPlace1} et {caseBateauPlace2}");
                     return true;
                 }
 
@@ -192,14 +198,23 @@ namespace Serveur
 
         }
 
-        public string EnvoieConfirmation()
-        {
-            return "";
-        }
-
         public bool VerifierGagnant()
         {
-            return true;
+            //TODO s'organiser pour que le code soit facilement modifiable si des s'ajoute au jeu ou si les dimensions changent
+            if (tableauJoueur[caseBateauPlace1 - 1] == "BT" && tableauJoueur[caseBateauPlace2 - 1] == "BT")
+            {
+                return true;
+            }
+
+            else
+                return false;
+
+        }
+
+        public void ClearTableau()
+        {
+            tableauAdversaire = new string[size * size];
+            tableauJoueur = new string[size * size];
         }
     }
 }
