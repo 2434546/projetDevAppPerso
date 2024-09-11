@@ -66,7 +66,24 @@ namespace Serveur
                 {
                     if (tableauJoueur[(i * size) + j] != null)
                     {
-                        Console.Write($" {tableauJoueur[(i * size) + j]} |");
+                        if (tableauJoueur[(i * size) + j] == "BT")
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                        }
+                        else if (tableauJoueur[(i * size) + j] == "XX")
+                        {
+                            Console.ForegroundColor = ConsoleColor.Blue;
+
+                        }
+                        else if (tableauJoueur[(i * size) + j] == "BB")
+                        {
+                            Console.ForegroundColor = ConsoleColor.Green;
+
+                        }
+
+                        Console.Write($" {tableauJoueur[(i * size) + j]} ");
+                        Console.ResetColor();
+                        Console.Write("|");
                     }
 
                     else
@@ -101,7 +118,18 @@ namespace Serveur
 
                     if (tableauAdversaire[(i * size) + j] != null)
                     {
-                        Console.Write($" {tableauAdversaire[(i * size) + j]} |");
+                        if (tableauAdversaire[(i * size) + j] == "BT")
+                        {
+                            Console.ForegroundColor = ConsoleColor.Green;
+                        }
+                        else if (tableauAdversaire[(i * size) + j] == "XX")
+                        {
+                            Console.ForegroundColor = ConsoleColor.Blue;
+                        }
+
+                        Console.Write($" {tableauAdversaire[(i * size) + j]} ");
+                        Console.ResetColor();
+                        Console.Write("|");
                     }
 
                     else

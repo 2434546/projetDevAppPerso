@@ -5,30 +5,41 @@ using System.Net.Sockets;
 using System.Reflection;
 using System.Text;
 
+StartComunication();
 
-IPEndPoint ipEndPoint = new IPEndPoint(IPAddress.Any, 11000);
-Socket socketListener = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
-try
+void StartComunication()
 {
-    socketListener.Bind(ipEndPoint);
-    socketListener.Listen(10);
+    IPEndPoint ipEndPoint = new IPEndPoint(IPAddress.Any, 11000);
+    Socket socketListener = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+    Socket handler = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
-    while (true)
+    try
+    {
+        socketListener.Bind(ipEndPoint);
+        socketListener.Listen(10);
+
+        while (true)
+        {
+            Console.WriteLine("En attente d'une connexion...");
+
+            handler = socketListener.Accept();
+
+            //Ajouter code pour lancer la partie
+            Game game = new Game();
+            game.StartGame(handler);
+
+            Console.Clear();
+            Console.WriteLine("L'adversaire a quitter");
+        }
+    }
+    catch (Exception e)
     {
         Console.Clear();
-        Console.WriteLine("En attente d'une connexion...");
-
-        Socket handler = socketListener.Accept();
-
-        //Ajouter code pour lancer la partie
-        Game game = new Game();
-        game.StartGame(handler);
-
-
+        handler.Close();
+        socketListener.Close();
+        Console.WriteLine("Client déconnecter retour a la recherche");
+        StartComunication();
     }
-}
-catch (Exception e)
-{
-    Console.WriteLine(e.ToString());
+   
 }
