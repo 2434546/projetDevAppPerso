@@ -100,7 +100,11 @@ namespace Serveur
                 if (i < gridDimensionJoueur - 1)
                 {
                     Console.WriteLine("");
-                    Console.WriteLine("--------------------");
+                    for (int k = 0; k < size; k++)
+                    {
+                        Console.Write("-----");
+                    }
+                    Console.WriteLine("");
                 }
 
             }
@@ -146,7 +150,11 @@ namespace Serveur
                 if (i < gridDimensionAdversaire - 1)
                 {
                     Console.WriteLine("");
-                    Console.WriteLine("--------------------");
+                    for (int k = 0; k < size; k++)
+                    {
+                        Console.Write("-----");
+                    }
+                    Console.WriteLine("");
                 }
 
             }
@@ -168,8 +176,6 @@ namespace Serveur
 
         public Tir ChoixTir()
         {
-            //TODO Faire une vérification pour empecher de tirer à la meme place
-
             int coordChoisi = 0;
 
             do
@@ -192,7 +198,7 @@ namespace Serveur
             {
 
             Console.WriteLine("Entrez les coordonnées de votre bateau (ex: 4,5) : ");
-            string input = Console.ReadLine();
+            string? input = Console.ReadLine();
 
                 if (!string.IsNullOrEmpty(input) && input.Contains(","))
                 {
@@ -245,7 +251,6 @@ namespace Serveur
 
             return placementValide;
         }
-
 
         public bool VerifierGagnant()
         {

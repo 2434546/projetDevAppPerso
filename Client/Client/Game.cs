@@ -44,15 +44,16 @@ namespace Client
             }
         }
 
-        public void RestartGame(Socket socket)
+        private void RestartGame(Socket socket)
         {
             Console.WriteLine("Voulez-vous rejouer une partie. Oui(o) ou Non (n)");
-            string? choix = "";
+            string? choix;
 
             do
             {
                 choix = Console.ReadLine();
-                choix.ToLower();
+                if(choix != null)
+                    choix.ToLower();
             }
             while (choix != "o" && choix != "n");
 
@@ -75,7 +76,7 @@ namespace Client
             }
         }
 
-        public bool ChoisirBateau(Socket socket)
+        private bool ChoisirBateau(Socket socket)
         {
             AfficherJeux();
             //Choisi sont bateau
@@ -90,76 +91,87 @@ namespace Client
             return RecevoirChoixBateau(socket);
         }
 
-        public string JouerTour(Socket socket)
+        private string JouerTour(Socket socket)
         {
-            Tir tir = tableau.ChoixTir();
+            Tir? tir = tableau.ChoixTir();
             tir.status = "toCheck";
 
             tableau.EnvoyerTir(tir, socket);
 
             tir = tableau.RecevoirTir(socket);
 
-            if(tir.status == "win")
+            if (tir != null)
             {
-                tableau.AjoutTir(tir);
-                Console.Clear();
-                Console.WriteLine("Vous avez gagné!!");
-                return "win";
+                if (tir.status == "win")
+                {
+                    tableau.AjoutTir(tir);
+                    Console.Clear();
+                    Console.WriteLine("Vous avez gagné!!");
+                    return "win";
+                }
+            }
+
+            AfficherJeux();
+            if (tir != null)
+            {
+                if (tir.status == "check")
+                {
+                    tableau.AjoutTir(tir);
+                    tir.status = "changeTour";
+                }
             }
 
             AfficherJeux();
 
-            if (tir.status == "check")
-            {
-                tableau.AjoutTir(tir);
-                tir.status = "changeTour";
-            }
-
-            AfficherJeux();
-
-            tableau.EnvoyerTir(tir, socket);
+            if(tir != null)
+                tableau.EnvoyerTir(tir, socket);
 
             return "continu";
         }
 
-        public string AdversaireJouer(Socket socket)
+        private string AdversaireJouer(Socket socket)
         {
-            Tir tir = tableau.RecevoirTir(socket);
-
-            if (tir.status == "toCheck")
+            Tir? tir = tableau.RecevoirTir(socket);
+            if(tir != null)
             {
-                tir = tableau.VerificationTir(tir);
-                bool gagnant = tableau.VerifierGagnant();
-                if (gagnant)
-                    tir.status = "win";
-
-                tableau.EnvoyerTir(tir, socket);
-
-                if (tir.status == "win")
+                if (tir.status == "toCheck")
                 {
-                    Console.Clear();
-                    Console.WriteLine("Votre adversaire a gagnée");
-                    return "";
-                }
+                    tir = tableau.VerificationTir(tir);
+                    bool gagnant = tableau.VerifierGagnant();
+                    if (gagnant)
+                        tir.status = "win";
 
-                AfficherJeux();
+                    tableau.EnvoyerTir(tir, socket);
 
-
-                bool nextTour = false;
-                while (nextTour != true)
-                {
-                    tir = tableau.RecevoirTir(socket);
-                    if (tir.status == "changeTour")
-                        nextTour = true;
-                    if (tir.status == "newGame" || tir.status == "stop")
+                    if (tir.status == "win")
+                    {
+                        Console.Clear();
+                        Console.WriteLine("Votre adversaire a gagnée");
                         return "";
-                }
+                    }
 
+                    AfficherJeux();
+
+
+                    bool nextTour = false;
+                    while (nextTour != true)
+                    {
+                        tir = tableau.RecevoirTir(socket);
+                        if(tir != null)
+                        {
+                            if (tir.status == "changeTour")
+                                nextTour = true;
+                            if (tir.status == "newGame" || tir.status == "stop")
+                                return "";
+                        }
+                    }
+
+                }
             }
             return "notWin";
         }
 
-        public void AfficherJeux()
+        private void AfficherJeux()
         {
             Console.Clear();
             AfficherLegende();
@@ -175,7 +187,7 @@ namespace Client
             Console.WriteLine();
         }
 
-        public void AfficherLegende()
+        private void AfficherLegende()
         {
             Console.WriteLine("LÉGENDE :");
             Console.WriteLine("XX = Tir dans l'eau");
@@ -183,19 +195,18 @@ namespace Client
             Console.WriteLine("BT = Partie de bateau touché");
         }
 
-        public void EnvoyerChoixBateau(bool bateauChoisi, Socket socket)
+        private void EnvoyerChoixBateau(bool bateauChoisi, Socket socket)
         {
             string jsonBool = Serialiser.SerialiseBoolToJson(bateauChoisi);
             byte[] bytes = Encoding.ASCII.GetBytes(jsonBool);
             socket.Send(bytes);
         }
 
-        public bool RecevoirChoixBateau(Socket socket)
+        private bool RecevoirChoixBateau(Socket socket)
         {
             byte[] bytes = new byte[1024];
             int bytesRec = socket.Receive(bytes);
             return Serialiser.DeserialiseBoolFromJson(Encoding.ASCII.GetString(bytes, 0, bytesRec));
         }
-
     }
 }
