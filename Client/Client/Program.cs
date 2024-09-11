@@ -6,10 +6,12 @@ using System.Text;
 byte[] bytes = new byte[1024];
 string message = string.Empty;
 
+
 StartComunication();
 
 void StartComunication()
 {
+    var client = new Clients();
     // Connect to a remote device.
     Console.Write("Entrée l'adresse du server : ");
     string? ipServer = Console.ReadLine();

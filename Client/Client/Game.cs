@@ -47,7 +47,7 @@ namespace Client
         private void RestartGame(Socket socket)
         {
             Console.WriteLine("Voulez-vous rejouer une partie. Oui(o) ou Non (n)");
-            string? choix = "";
+            string? choix;
 
             do
             {

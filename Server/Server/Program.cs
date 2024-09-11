@@ -33,7 +33,7 @@ void StartComunication()
             Console.WriteLine("L'adversaire a quitter");
         }
     }
-    catch (Exception e)
+    catch (Exception)
     {
         Console.Clear();
         handler.Close();
