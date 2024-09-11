@@ -56,7 +56,7 @@ namespace Client
         public void AffichageTableauJoueur()
         {
             double gridDimensionJoueur = Math.Sqrt(tableauJoueur.Length);
-            int index = 1;
+            int index = 1;        
 
             for (int i = 0; i < gridDimensionJoueur; i++)
             {
@@ -64,7 +64,24 @@ namespace Client
                 {
                     if (tableauJoueur[(i * size) + j] != null)
                     {
-                        Console.Write($" {tableauJoueur[(i * size) + j]} |");
+                        if(tableauJoueur[(i * size) + j] == "BT")
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                        }
+                        else if (tableauJoueur[(i * size) + j] == "XX")
+                        {
+                            Console.ForegroundColor = ConsoleColor.Cyan;
+                        }
+                        else if(tableauJoueur[(i * size) + j] == "BB")
+                        {
+                            Console.ForegroundColor = ConsoleColor.Green;
+
+                        }
+
+                        Console.Write($" {tableauJoueur[(i * size) + j]} ");
+                        Console.ResetColor();
+                        Console.Write("|");
+
                     }
 
                     else
@@ -76,6 +93,8 @@ namespace Client
                             Console.Write($" {index} |");
                     }
                     index++;
+
+                   
                 }
 
                 if (i < gridDimensionJoueur - 1)
@@ -99,10 +118,23 @@ namespace Client
 
                         if(tableauAdversaire[(i * size) + j] != null)
                         {
-                            Console.Write($" {tableauAdversaire[(i * size) + j]} |");
+
+                            if (tableauAdversaire[(i * size) + j] == "BT")
+                            {
+                                Console.ForegroundColor = ConsoleColor.Green;
+                            }
+                            else if (tableauAdversaire[(i * size) + j] == "XX")
+                            {
+                                Console.ForegroundColor = ConsoleColor.Blue;
+                            }
+
+                            Console.Write($" {tableauAdversaire[(i * size) + j]} ");
+                            Console.ResetColor();
+                            Console.Write("|");
+
                         }
 
-                        else
+                    else
                         {
                             if(index < 10)
                             Console.Write($" 0{index} |");

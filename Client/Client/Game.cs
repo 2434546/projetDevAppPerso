@@ -40,8 +40,6 @@ namespace Client
 
                 }
 
-                Console.Clear();
-                Console.WriteLine("Vous avez gagné!!");
                 RestartGame(socket);           
             }
         }
@@ -104,7 +102,8 @@ namespace Client
             if(tir.status == "win")
             {
                 tableau.AjoutTir(tir);
-                AfficherJeux();
+                Console.Clear();
+                Console.WriteLine("Vous avez gagné!!");
                 return "win";
             }
 
@@ -137,7 +136,11 @@ namespace Client
                 tableau.EnvoyerTir(tir, socket);
 
                 if (tir.status == "win")
+                {
+                    Console.Clear();
+                    Console.WriteLine("Votre adversaire a gagnée");
                     return "";
+                }
 
                 AfficherJeux();
 
@@ -161,12 +164,12 @@ namespace Client
             Console.Clear();
             AfficherLegende();
             Console.WriteLine();
-            Console.WriteLine("Tableau Joueur");
+            Console.WriteLine("Votre Tableau");
             Console.WriteLine();
             tableau.AffichageTableauJoueur();
             Console.WriteLine();
             Console.WriteLine();
-            Console.WriteLine("Tableau Adversaire");
+            Console.WriteLine("Tableau de l'Adversaire");
             Console.WriteLine();
             tableau.AffichageTableauAdversaire();
             Console.WriteLine();

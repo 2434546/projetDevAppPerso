@@ -44,7 +44,6 @@ namespace Serveur
 
         public void RestartGame(Socket socket)
         {
-            Console.Clear();
             Console.WriteLine("Votre adversaire décide s'il veut refaire une partie ...");
 
             Tir? tir = tableau.RecevoirTir(socket);
@@ -91,8 +90,8 @@ namespace Serveur
 
             if (tir.status == "win")
             {
-                tableau.AjoutTir(tir);
-                AfficherJeux();
+                Console.Clear();
+                Console.WriteLine("Vous avez gagné!!");
                 return "win";
             }
 
@@ -125,7 +124,11 @@ namespace Serveur
                 tableau.EnvoyerTir(tir, socket);
 
                 if (tir.status == "win")
+                {
+                    Console.Clear();
+                    Console.WriteLine("Votre adversaire a gagnée");
                     return "";
+                }
 
                 AfficherJeux();
 
@@ -148,12 +151,12 @@ namespace Serveur
         public void AfficherJeux()
         {
             Console.Clear();
-            Console.WriteLine("Tableau Joueur");
+            Console.WriteLine("Votre Tableau");
             Console.WriteLine();
             tableau.AffichageTableauJoueur();
             Console.WriteLine();
             Console.WriteLine();
-            Console.WriteLine("Tableau Adversaire");
+            Console.WriteLine("Tableau de l'Adversaire");
             Console.WriteLine();
             tableau.AffichageTableauAdversaire();
             Console.WriteLine();
