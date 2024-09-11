@@ -11,6 +11,7 @@ StartComunication();
 
 void StartComunication()
 {
+    var client = new Clients();
     // Connect to a remote device.
     Console.Write("Entrée l'adresse du server : ");
     string ipServer = Console.ReadLine();
