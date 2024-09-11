@@ -28,6 +28,9 @@ void StartComunication()
             //Ajouter code pour lancer la partie
             Game game = new Game();
             game.StartGame(handler);
+
+            Console.Clear();
+            Console.WriteLine("L'adversaire a quitter");
         }
     }
     catch (Exception e)
