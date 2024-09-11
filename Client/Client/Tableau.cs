@@ -26,13 +26,15 @@ namespace Client
         public Tir VerificationTir(Tir tir)
         {
             string emplacement = tableauJoueur[tir.coord - 1];
-            if(emplacement == "BB")
+            if (emplacement == "BB")
             {
-                tableauAdversaire[tir.coord - 1] = "BT";
+                tableauJoueur[tir.coord - 1] = "BT";
                 tir.hit = true;
             }
-           
-            tableauAdversaire[tir.coord - 1] = "XX";
+            else
+            {
+                tableauJoueur[tir.coord - 1] = "XX";
+            }
 
             tir.status = "check";
             return tir;
@@ -171,7 +173,6 @@ namespace Client
         public bool ChoixBateau()
         {
             bool placementValide = false;
-            int case1, case2;
             string[]? coord;
 
             do
@@ -188,22 +189,22 @@ namespace Client
                     if (coord == null)
                         coord = input.Split(".");
 
-                    if (coord.Length == 2 && int.TryParse(coord[0], out case1) && int.TryParse(coord[1], out case2))
+                    if (coord.Length == 2 && int.TryParse(coord[0], out caseBateauPlace1) && int.TryParse(coord[1], out caseBateauPlace2))
                     {
-                        if (case1 >= 1 && case1 <= size * size && case2 >= 1 && case2 <= size * size)
+                        if (caseBateauPlace1 >= 1 && caseBateauPlace1 <= size * size && caseBateauPlace2 >= 1 && caseBateauPlace2 <= size * size)
                         {
 
-                            if (Math.Abs(case1 - case2) == 1 || Math.Abs(case1 - case2) == size)
+                            if (Math.Abs(caseBateauPlace1 - caseBateauPlace2) == 1 || Math.Abs(caseBateauPlace1 - caseBateauPlace2) == size)
                             {
-                                if (Math.Abs(case1 - case2) == 1 && (Math.Max(case1, case2) % size == 1))
+                                if (Math.Abs(caseBateauPlace1 - caseBateauPlace2) == 1 && (Math.Max(caseBateauPlace1, caseBateauPlace2) % size == 1))
                                 {
                                     Console.WriteLine("Les cases sélectionné sont placées sur deux lignes différentes opposé");
                                 }
-                                else if (tableauJoueur[case1 - 1] == null && tableauJoueur[case2 - 1] == null)
+                                else if (tableauJoueur[caseBateauPlace1 - 1] == null && tableauJoueur[caseBateauPlace2 - 1] == null)
                                 {
-                                    tableauJoueur[case1 - 1] = "BB";
-                                    tableauJoueur[case2 - 1] = "BB";
-                                    Console.WriteLine($"Le bateau a été placé aux coordonnées {case1} et {case2}");
+                                    tableauJoueur[caseBateauPlace1 - 1] = "BB";
+                                    tableauJoueur[caseBateauPlace2 - 1] = "BB";
+                                    Console.WriteLine($"Le bateau a été placé aux coordonnées {caseBateauPlace1} et {caseBateauPlace2}");
                                     placementValide = true;
                                 }
                             }
@@ -230,11 +231,6 @@ namespace Client
             } while (!placementValide);
 
             return placementValide;
-        }
-
-        public string EnvoieConfirmation()
-        {
-            return "";
         }
 
         public bool VerifierGagnant()
