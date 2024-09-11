@@ -10,7 +10,7 @@ namespace Server
     internal class Serialiser
     {
         /// <summary>
-        /// Serialise la partie de TicTacToe en JSON
+        /// Serialise les objets tir de la partie
         /// </summary>
         /// <param name="game">La partie de jeu</param>
         /// <returns>Le Json de la partie</returns>
@@ -19,12 +19,12 @@ namespace Server
             string json = JsonConvert.SerializeObject(tir);
             return json;
         }
-      
+
         /// <summary>
-        /// Deserialise la partie de TicTacToe du JSON et retourne la partie en objet TicTacToe
+        /// Deserialise les objets tir de la partie
         /// </summary>
         /// <param name="json">Le Json de la partie</param>
-        /// <returns>L'objet TicTacToe de la partie</returns>
+        /// <returns>L'objet tir de la partie</returns>
         public static Tir? DeserialiseTirFromJson(string json)
         {
             Tir ?tir = JsonConvert.DeserializeObject<Tir>(json);
