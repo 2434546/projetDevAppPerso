@@ -12,29 +12,34 @@ void StartComunication()
 {
     // Connect to a remote device.
     Console.Write("Entrée l'adresse du server : ");
-    string ipServer = Console.ReadLine();
-    IPAddress ipAdress = IPAddress.Parse(ipServer);
-    IPEndPoint ipEndPoint = new IPEndPoint(ipAdress, 11000);
-    Socket sender = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-    try
+    string? ipServer = Console.ReadLine();
+    if(ipServer != null)
     {
-        sender.Connect(ipEndPoint);
-        Console.WriteLine("Connexion établie");
+        IPAddress ipAdress = IPAddress.Parse(ipServer);
 
-        //Ajouter la truc qui lance la game
-        Game game = new Game();
-        game.StartGame(sender);
+        IPEndPoint ipEndPoint = new IPEndPoint(ipAdress, 11000);
+        Socket sender = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+        try
+        {
+            sender.Connect(ipEndPoint);
+            Console.WriteLine("Connexion établie");
 
-        // Release the socket.
-        sender.Shutdown(SocketShutdown.Both);
-        sender.Close();
+            //Ajouter la truc qui lance la game
+            Game game = new Game();
+            game.StartGame(sender);
+
+            // Release the socket.
+            sender.Shutdown(SocketShutdown.Both);
+            sender.Close();
+        }
+        catch (Exception)
+        {
+            Console.Clear();
+            sender.Close();
+            Console.WriteLine("Connection avec le server a été interrompu. Veuillez réessayer.");
+            StartComunication();
+        }
     }
-    catch (Exception e)
-    {
-        Console.Clear();
-        sender.Close();
-        Console.WriteLine("Connection avec le server a été interrompu. Veuillez réessayer.");
-        StartComunication();
-    }
+
 }
 

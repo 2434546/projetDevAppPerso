@@ -170,7 +170,6 @@ namespace Client
 
         public Tir ChoixTir()
         {
-            //TODO Faire une vérification pour empecher de tirer à la meme place
 
             int coordChoisi = 0;
             bool caseValide = false;
@@ -211,7 +210,7 @@ namespace Client
             {
 
                 Console.WriteLine("Entrez les coordonnées de votre bateau (ex: 4,5) : ");
-                string input = Console.ReadLine();
+                string? input = Console.ReadLine();
 
                 if (!string.IsNullOrEmpty(input) && input.Contains(","))
                 {
