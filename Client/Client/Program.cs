@@ -8,22 +8,12 @@ string message = string.Empty;
 
 try
 {
+    var client = new Clients();
     // Connect to a remote device.
     Console.Write("Entrée l'adresse du server : ");
     string ipServer = Console.ReadLine();
-    IPAddress ipAdress = IPAddress.Parse(ipServer);
-    IPEndPoint ipEndPoint = new IPEndPoint(ipAdress, 11000);
-    Socket sender = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-    sender.Connect(ipEndPoint);
-    Console.WriteLine("Connexion établie");
-
-    //Ajouter la truc qui lance la game
-    Game game = new Game();
-    game.StartGame(sender);
-
-    // Release the socket.
-    sender.Shutdown(SocketShutdown.Both);
-    sender.Close();
+    
+    client.Connect(ipServer);
 }
 catch (Exception e)
 {
