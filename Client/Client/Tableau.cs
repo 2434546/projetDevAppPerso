@@ -170,7 +170,6 @@ namespace Client
 
         public Tir ChoixTir()
         {
-            //TODO Faire une vérification pour empecher de tirer à la meme place
 
             int coordChoisi = 0;
             bool caseValide = false;

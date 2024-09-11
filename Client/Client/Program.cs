@@ -6,6 +6,7 @@ using System.Text;
 byte[] bytes = new byte[1024];
 string message = string.Empty;
 
+
 StartComunication();
 
 void StartComunication()
