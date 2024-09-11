@@ -160,6 +160,7 @@ namespace Serveur
         public void AfficherJeux()
         {
             Console.Clear();
+            AfficherLegende();
             Console.WriteLine("Votre Tableau");
             Console.WriteLine();
             tableau.AffichageTableauJoueur();
@@ -171,7 +172,13 @@ namespace Serveur
             Console.WriteLine();
         }
 
-
+        private void AfficherLegende()
+        {
+            Console.WriteLine("LÉGENDE :");
+            Console.WriteLine("XX = Tir dans l'eau");
+            Console.WriteLine("BB = Position du bateau");
+            Console.WriteLine("BT = Partie de bateau touché");
+        }
         public void EnvoyerChoixBateau(bool bateauChoisi, Socket socket)
         {
             string jsonBool = Serialiser.SerialiseBoolToJson(bateauChoisi);

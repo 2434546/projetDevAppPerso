@@ -100,7 +100,11 @@ namespace Client
                 if (i < gridDimensionJoueur - 1)
                 {
                     Console.WriteLine("");
-                    Console.WriteLine("--------------------");
+                    for(int k = 0; k < size; k++)
+                    {
+                        Console.Write("-----");
+                    }
+                    Console.WriteLine("");
                 }
 
             }
@@ -148,7 +152,11 @@ namespace Client
                 if (i < gridDimensionAdversaire - 1)
                 {
                     Console.WriteLine("");
-                    Console.WriteLine("--------------------");
+                    for (int k = 0; k < size; k++)
+                    {
+                        Console.Write("-----");
+                    }
+                    Console.WriteLine("");
                 }
 
             }
@@ -283,8 +291,5 @@ namespace Client
             tableauAdversaire = new string[size * size];
             tableauJoueur = new string[size * size];
         }
-
-        
-
     }
 }

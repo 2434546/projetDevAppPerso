@@ -100,7 +100,11 @@ namespace Serveur
                 if (i < gridDimensionJoueur - 1)
                 {
                     Console.WriteLine("");
-                    Console.WriteLine("--------------------");
+                    for (int k = 0; k < size; k++)
+                    {
+                        Console.Write("-----");
+                    }
+                    Console.WriteLine("");
                 }
 
             }
@@ -146,7 +150,11 @@ namespace Serveur
                 if (i < gridDimensionAdversaire - 1)
                 {
                     Console.WriteLine("");
-                    Console.WriteLine("--------------------");
+                    for (int k = 0; k < size; k++)
+                    {
+                        Console.Write("-----");
+                    }
+                    Console.WriteLine("");
                 }
 
             }
@@ -243,7 +251,6 @@ namespace Serveur
 
             return placementValide;
         }
-
 
         public bool VerifierGagnant()
         {
