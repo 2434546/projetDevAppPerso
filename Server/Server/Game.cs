@@ -143,6 +143,7 @@ namespace Serveur
                     bool nextTour = false;
                     while (nextTour != true)
                     {
+                        tir = tableau.RecevoirTir(socket);
                         if (tir != null)
                         {
                             if (tir.status == "changeTour")
