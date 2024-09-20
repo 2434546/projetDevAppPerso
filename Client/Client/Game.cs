@@ -10,15 +10,21 @@ namespace Client
 {
     public class Game
     {
+        private int gridSize;
         Tableau tableau;
 
         public Game()
         {
-            this.tableau = new Tableau();
         }
 
         public void StartGame(Socket socket)
         {
+            byte[] bytes = new byte[1024];
+            int bytesRec = socket.Receive(bytes);
+            gridSize = int.Parse(Encoding.ASCII.GetString(bytes, 0, bytesRec));
+
+            this.tableau = new Tableau(gridSize);
+
             bool bateauChoisiServer = ChoisirBateau(socket);
             string win = "notWin";
 
