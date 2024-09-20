@@ -11,14 +11,38 @@ namespace Serveur
 {
     public class Game
     {
+        private int gridSize;
         Tableau tableau;
 
         public Game()
         {
-            this.tableau = new Tableau();
+            this.gridSize = DemanderTailleGrille();
+            this.tableau = new Tableau(gridSize);
         }
 
         public void StartGame(Socket socket)
+        {
+            string message = $"J'héberge un jeu avec une grille de taille {gridSize}x{gridSize}. Voulez-vous jouer ? (o/n)";
+            byte[] messageBytes = Encoding.ASCII.GetBytes(message);
+            socket.Send(messageBytes);
+
+            byte[] buffer = new byte[1024];
+            int bytesRec = socket.Receive(buffer);
+            string reponse = Encoding.ASCII.GetString(buffer, 0, bytesRec).ToLower();
+
+            if (reponse == "o")
+            {
+                Console.WriteLine("Le client a accepté de jouer.");
+                Play(socket);
+            }
+            else
+            {
+                Console.WriteLine("Le client a refusé de jouer.");
+                socket.Close();
+            }
+        }
+
+        private void Play(Socket socket)
         {
             ChoisirBateau(socket);
 
@@ -32,7 +56,7 @@ namespace Serveur
                 else
                     break;
 
-                if(status == "continu")
+                if (status == "continu")
                     win = JouerTour(socket);
                 else
                     break;
@@ -192,6 +216,19 @@ namespace Serveur
             byte[] bytes = new byte[1024];
             int bytesRec = socket.Receive(bytes);
             return Serialiser.DeserialiseBoolFromJson(Encoding.ASCII.GetString(bytes, 0, bytesRec));
+        }
+
+        public int DemanderTailleGrille()
+        {
+            int taille;
+
+            do
+            {
+                Console.WriteLine("Veuillez entrer la taille de la grille (entre 4 et 9) : ");
+                taille = Convert.ToInt32(Console.ReadLine());
+            } while (taille < 4 || taille > 9);
+
+            return taille;
         }
     }
 }
